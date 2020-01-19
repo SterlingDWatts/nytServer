@@ -5,8 +5,23 @@ const app = express();
 
 app.use(morgan('common'));
 
+const books = require('./books-data');
+
 app.get('/books', (req, res) => {
-    // ALL OF OUR CODE GOES HERE!!
+
+    const { search = ''} = req.query;
+
+    let results = books
+        .filter(book => 
+            book
+                .title
+                .toLowerCase()
+                .includes(search.toLowerCase())
+        );
+
+    res
+        .json(results);
+
 });
 
 app.listen(8000, () => {
